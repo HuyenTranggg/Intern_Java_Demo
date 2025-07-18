@@ -46,7 +46,7 @@ CREATE TABLE `publishers` (
     `id`        		  INT PRIMARY KEY AUTO_INCREMENT,
     `name`      		  VARCHAR(50) NOT NULL,
     `address`   		  TEXT NULL,
-    `established_year`    INT NULL,
+    `established_year`    YEAR NULL,
     `email`       		  VARCHAR(255) NULL,
     `phone`      		  VARCHAR(20) NULL,
     `website`             VARCHAR(255) NULL,
@@ -138,7 +138,6 @@ CREATE TABLE `borrowing_receipts` (
     `user_id`              INT NOT NULL,
     `borrowed_date`        DATETIME NOT NULL,
     `due_date`             DATETIME NOT NULL,
-    `actual_return_date`   DATETIME NULL,
     `status`               INT NOT NULL, -- 'pending', 'approved', 'borrowed', 'rejected', 'returned', 'overdue', 'lost_reported', 'cancel'
 	`rejected_reason`	   TEXT NULL,
     `created_at`    	   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -152,6 +151,7 @@ CREATE TABLE `borrowing_details` (
 	`id`				   INT PRIMARY KEY AUTO_INCREMENT,
     `borrowing_receipt_id` INT NOT NULL,
     `book_instance_id`     INT NOT NULL,
+    `refund_date`		   DATETIME NULL,
     
     CONSTRAINT `fk_detail_receipt` FOREIGN KEY (`borrowing_receipt_id`) REFERENCES `borrowing_receipts`(`id`) ON DELETE CASCADE,
     CONSTRAINT `fk_detail_instance` FOREIGN KEY (`book_instance_id`) REFERENCES `book_instances`(`id`) ON DELETE RESTRICT
