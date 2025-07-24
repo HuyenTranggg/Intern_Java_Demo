@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Các cách tạo bean -->
+	<!-- C1: Tạo qua constructor KHÔNG tham số -->
+	<bean id="author" class="demo.Author"></bean>
+	
+	<!-- C2: Tạo qua constructor CÓ tham số -->
+	<bean id="author2" class="demo.Author">
+		<constructor-arg value="Alice" />
+	</bean>
+	
+	<bean id="book" class="demo.Book">
+		<!-- Mỗi <constructor-arg> tương ứng với một tham số trong constructor -->
+		<constructor-arg type="String" value="Happy birthday!"></constructor-arg>
+		<constructor-arg index="1" value="5114"></constructor-arg>
+		<constructor-arg ref="author2"></constructor-arg>
+	</bean>
+	
+	<!-- C3: Tạo qua Static Factory Method -->
+	<bean id="clientService" 
+		class="demo.ClientService" 
+		factory-method="createInstance"/>
+	
+	<!-- C4: Tạo qua Instance Factory Method -->
+	<!-- Khởi tạo bean factory -->
+	<bean id="bookFactory" class="demo.BookFactory"/>
+	<!-- Tạo bean thông qua method createInstance của bean bookFactory -->
+	<bean id="myBook" 
+		factory-bean="bookFactory" 
+		factory-method="createInstance"/>
+</beans>

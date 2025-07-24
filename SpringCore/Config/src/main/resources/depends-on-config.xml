@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Using depends-on 
+		 * Dùng khi bean A phụ thuộc gián tiếp vào bean B
+		 * Nếu bean book depends-on bean author, Spring sẽ bắt buộc bean author khởi tạo trước bean book
+		 * Khi hủy, bean book phải hủy trước rồi mới hủy bean author
+	-->
+	<bean id="book" class="demo.Book" depends-on="author"/>
+	<bean id="author" class="demo.Author" />
+	
+	<!-- Một bean có thể phụ thuộc nhiều bean -->
+	<bean id="class" class="demo.Class" depends-on="student, address" init-method="initialize" /> <!-- Dấu phân cách có thể là ',' / ' ' / ';' -->
+	<bean id="student" class="demo.Student" init-method="initialize" />
+	<bean id="address" class="demo.Address" init-method="initialize" />
+</beans>
