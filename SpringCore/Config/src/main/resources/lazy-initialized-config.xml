@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="not-lazy" class="demo.Author"></bean>
+	
+	<!-- Lazy-initialized -->
+	<!-- Nghĩa là Spring chỉ tạo bean khi thật sự cần đến (getBean hoặc khi inject vào nơi nào đó) -->
+	<bean id="lazy" class="demo.Book" lazy-init="true"></bean>
+	
+	<!-- Dù lazy-bean có lazy-init = true nhưng nó được inject vào bean singleton khác (default-bean) không lazy, thì Spring vẫn khởi tạo nó sớm -->
+	<bean id="default-bean" class="demo.Student" init-method="initialize">
+		<property name="address" ref="lazy-bean"></property>
+	</bean>
+	
+	<bean id="lazy-bean" class="demo.Address" lazy-init="true" init-method="initialize"></bean>
+</beans>

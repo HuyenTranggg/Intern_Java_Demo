@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Autowire -->
+	<!-- Setter-based autowiring -->
+	<!-- C1: byName
+		 * Spring sẽ tìm id trùng với tên property để autowire
+		 * VD: setter là setAccountService() -> tên property = accountService -> tìm id có tên là accountService để autowire
+	-->
+	<bean id="autowireByName"
+          class="demo.ServiceConsumer"
+          autowire="byName" />
+          
+    <bean id="accountService" class="demo.AccountServiceImpl1" />
+    <!-- Có thể để autowire-candidate="false" nếu không muốn bean này thành đối tượng autowire -->
+	<bean id="accountService2" class="demo.AccountServiceImpl2" autowire-candidate="false"/>
+	
+	<!-- C2: byType
+		 * Spring sẽ tìm bean cùng kiểu dữ liệu với property
+		 * Chỉ inject thành công khi chỉ có 1 bean duy nhất có type phù hợp
+	-->   
+    <bean id="autowireByType" 
+    	  class="demo.Student" 
+    	  autowire="byType" />
+	
+	<!-- Khi có 2 bean cùng kiểu, bean có primary="true" sẽ được ưu tiên chọn -->
+	<bean id="hanoi_addr" class="demo.Address" primary="true">
+		<constructor-arg value="Hà Nội"></constructor-arg>
+	</bean>
+    <bean id="hcm_addr" class="demo.Address"></bean>
+    
+    
+    <!-- Constructor-based autowiring 
+    	 * Giống byType nhưng áp dụng với tham số trong constructor
+    	 * Nếu có nhiều bean cùng kiểu thì Spring sẽ báo lỗi
+    -->
+    <bean id="consumerByConstructor"
+          class="demo.ServiceConsumer"
+          autowire="constructor" />
+</beans>
