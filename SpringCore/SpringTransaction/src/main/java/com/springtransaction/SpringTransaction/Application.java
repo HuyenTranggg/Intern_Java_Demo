@@ -1,5 +1,6 @@
 package com.springtransaction.SpringTransaction;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.transaction.TransactionTimedOutException;
 
 import com.springtransaction.SpringTransaction.config.AppConfig;
 import com.springtransaction.SpringTransaction.dao.ProductDao;
@@ -9,6 +10,7 @@ import com.springtransaction.SpringTransaction.service.InnerService;
 import com.springtransaction.SpringTransaction.service.OuterService;
 import com.springtransaction.SpringTransaction.service.ProgrammaticProductService;
 import com.springtransaction.SpringTransaction.service.ReadOnlyDemo;
+import com.springtransaction.SpringTransaction.service.TimeOutDemo;
 
 public class Application{
 	public static void main(String[] args) {
@@ -59,16 +61,25 @@ public class Application{
 //		System.out.println(productDao.count());
 		
 
-		//Demo readOnly 
-		ReadOnlyDemo readOnlyDemo = context.getBean(ReadOnlyDemo.class);
+//		//Demo readOnly 
+//		ReadOnlyDemo readOnlyDemo = context.getBean(ReadOnlyDemo.class);
+//		
+//	
+//		readOnlyDemo.demonstrateReadOnly();
+//		
+//		Product afterReadOnly = productDao.findById(1L);
+//		System.out.println("Ten san pham: " + afterReadOnly.getName());
 		
-	
-		readOnlyDemo.demonstrateReadOnly();
 		
-		Product afterReadOnly = productDao.findById(1L);
-		System.out.println("Ten san pham: " + afterReadOnly.getName());
-		
-		
+		// Demo TimeOut
+		TimeOutDemo timeout = context.getBean(TimeOutDemo.class);
+		try {
+			timeout.demonstrateTimeout();
+		}catch(TransactionTimedOutException e) {
+			System.out.println(e.getClass().getSimpleName());
+		}
+		long countAfterTimeout = productDao.count();
+		System.out.println("So luong trong DB sau Timeout: " + countAfterTimeout);
 		// Giai phong du lieu va dong Spring container
 		context.close();
 	}
