@@ -10,6 +10,7 @@ import com.springtransaction.SpringTransaction.service.InnerService;
 import com.springtransaction.SpringTransaction.service.OuterService;
 import com.springtransaction.SpringTransaction.service.ProgrammaticProductService;
 import com.springtransaction.SpringTransaction.service.ReadOnlyDemo;
+import com.springtransaction.SpringTransaction.service.RollBackForAndNoRollBackFor;
 import com.springtransaction.SpringTransaction.service.TimeOutDemo;
 
 public class Application{
@@ -72,14 +73,24 @@ public class Application{
 		
 		
 		// Demo TimeOut
-		TimeOutDemo timeout = context.getBean(TimeOutDemo.class);
+//		TimeOutDemo timeout = context.getBean(TimeOutDemo.class);
+//		try {
+//			timeout.demonstrateTimeout();
+//		}catch(TransactionTimedOutException e) {
+//			System.out.println(e.getClass().getSimpleName());
+//		}
+//		long countAfterTimeout = productDao.count();
+//		System.out.println("So luong trong DB sau Timeout: " + countAfterTimeout);
+		
+		
+		//Demo rollBackFor and noRollBackFor
+		RollBackForAndNoRollBackFor demo = context.getBean(RollBackForAndNoRollBackFor.class);
 		try {
-			timeout.demonstrateTimeout();
-		}catch(TransactionTimedOutException e) {
-			System.out.println(e.getClass().getSimpleName());
+			demo.throwCheckedException_Default();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
-		long countAfterTimeout = productDao.count();
-		System.out.println("So luong trong DB sau Timeout: " + countAfterTimeout);
+		System.out.println("Sau khi demo so luong san pham trong DB la: " + productDao.count());
 		// Giai phong du lieu va dong Spring container
 		context.close();
 	}
