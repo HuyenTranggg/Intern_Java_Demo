@@ -18,4 +18,17 @@ public class ProductDao{
 	public long count() {
 		return entityManager.createQuery("SELECT COUNT(p) FROM Product p", Long.class).getSingleResult();
 	}
+	public Product findById(long id) {
+		// TODO Auto-generated method stub
+		return entityManager
+				.createQuery("SELECT p FROM Product p WHERE p.id = :id",Product.class)
+				.setParameter("id", id)
+				.getSingleResult();
+	}
+	
+	
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+		entityManager.createQuery("DELETE FROM Product").executeUpdate();
+	}
 }
