@@ -8,6 +8,7 @@ import com.springtransaction.SpringTransaction.service.DeclarativeProductService
 import com.springtransaction.SpringTransaction.service.InnerService;
 import com.springtransaction.SpringTransaction.service.OuterService;
 import com.springtransaction.SpringTransaction.service.ProgrammaticProductService;
+import com.springtransaction.SpringTransaction.service.ReadOnlyDemo;
 
 public class Application{
 	public static void main(String[] args) {
@@ -48,14 +49,25 @@ public class Application{
 		
 		
 		// Demo Propagation
-		OuterService outerService = context.getBean(OuterService.class);
-		InnerService innerService = context.getBean(InnerService.class);
+//		OuterService outerService = context.getBean(OuterService.class);
+//		InnerService innerService = context.getBean(InnerService.class);
+//		
+//		// REQUIRED
+//		try {
+//			outerService.testRequired_InnerFails();
+//		} catch(Exception e) {}
+//		System.out.println(productDao.count());
 		
-		// REQUIRED
-		try {
-			outerService.testRequired_InnerFails();
-		} catch(Exception e) {}
-		System.out.println(productDao.count());
+
+		//Demo readOnly 
+		ReadOnlyDemo readOnlyDemo = context.getBean(ReadOnlyDemo.class);
+		
+	
+		readOnlyDemo.demonstrateReadOnly();
+		
+		Product afterReadOnly = productDao.findById(1L);
+		System.out.println("Ten san pham: " + afterReadOnly.getName());
+		
 		
 		// Giai phong du lieu va dong Spring container
 		context.close();
