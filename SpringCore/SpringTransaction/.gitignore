@@ -1,0 +1,5 @@
+/target/
+.classpath
+.project
+.settings/
+src/test/java/com/springtransaction/SpringTransaction/AppTest.java
