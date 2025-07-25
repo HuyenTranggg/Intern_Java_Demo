@@ -3,35 +3,44 @@ package com.example;
 import com.example.config.AppConfig;
 import com.example.dao.StudentDao;
 import com.example.entity.Student;
+import com.example.service.StudentService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // 1. Khởi tạo Spring Context từ class cấu hình
+        // Khởi tạo Spring Context từ class cấu hình
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        // 2. Lấy Bean 'studentDao' từ Spring Context
-        // Spring đã tự động tạo đối tượng StudentDaoImpl và quản lý nó
-        StudentDao studentDao = context.getBean(StudentDao.class);
+        // Lấy Bean từ tầng Service
+        StudentService studentService = context.getBean(StudentService.class);
 
         // --- Bắt đầu Demo ---
-        System.out.println("--- DEMO THÊM MỘT SINH VIÊN MỚI ---");
-        Student newStudent = new Student("Vũ Thu Hiền", "hienvuthu@example.com");
-        studentDao.save(newStudent);
-        System.out.println("Đã lưu: " + newStudent);
+        System.out.println("--- DEMO TẠO SINH VIÊN ---");
+        try {
+            studentService.createStudent(new Student("Nguyễn Văn A", "a.nguyen@email.com"));
+            studentService.createStudent(new Student("Trần Thị B", "b.tran@email.com"));
+            System.out.println("Tạo 2 sinh viên thành công!");
+        } catch (Exception e) {
+            System.out.println("Lỗi khi tạo sinh viên: " + e.getMessage());
+        }
 
-        System.out.println("\n--- DEMO TÌM KIẾM SINH VIÊN THEO ID ---");
-        Student foundStudent = studentDao.findById(newStudent.getId());
-        System.out.println("Tìm thấy: " + foundStudent);
+        System.out.println("\n--- DEMO THỬ TẠO SINH VIÊN TRÙNG EMAIL ---");
+        try {
+            studentService.createStudent(new Student("Nguyễn Văn A Fake", "a.nguyen@email.com"));
+        } catch (Exception e) {
+            System.out.println("Lỗi: " + e.getMessage());
+        }
 
         System.out.println("\n--- DEMO LẤY TẤT CẢ SINH VIÊN ---");
-        studentDao.save(new Student("Trần Thị Hồng", "tranthihong@example.com"));
-        List<Student> students = studentDao.findAll();
+        List<Student> students = studentService.getAllStudents();
         students.forEach(System.out::println);
 
-        // 3. Đóng Spring Context
+        System.out.println("\n--- DEMO TÌM KIẾM SINH VIÊN THEO ID ---");
+        Student student = studentService.getStudentById(1);
+        System.out.println("Tìm thấy sinh viên ID 1: " + student);
+
         context.close();
     }
 }
