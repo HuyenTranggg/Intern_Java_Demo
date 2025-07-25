@@ -19,8 +19,8 @@ public class Main {
         // --- Bắt đầu Demo ---
         System.out.println("--- DEMO TẠO SINH VIÊN ---");
         try {
-            studentService.createStudent(new Student("Nguyễn Văn A", "a.nguyen@email.com"));
-            studentService.createStudent(new Student("Trần Thị B", "b.tran@email.com"));
+            studentService.createStudent(new Student("Lê Hải Y", "y.lehai@email.com"));
+            studentService.createStudent(new Student("Ngô Văn X", "x.ngovan@email.com"));
             System.out.println("Tạo 2 sinh viên thành công!");
         } catch (Exception e) {
             System.out.println("Lỗi khi tạo sinh viên: " + e.getMessage());
@@ -28,7 +28,7 @@ public class Main {
 
         System.out.println("\n--- DEMO THỬ TẠO SINH VIÊN TRÙNG EMAIL ---");
         try {
-            studentService.createStudent(new Student("Nguyễn Văn A Fake", "a.nguyen@email.com"));
+            studentService.createStudent(new Student("Lê Hải Y Fake", "y.lehai@email.com"));
         } catch (Exception e) {
             System.out.println("Lỗi: " + e.getMessage());
         }
@@ -38,8 +38,8 @@ public class Main {
         students.forEach(System.out::println);
 
         System.out.println("\n--- DEMO TÌM KIẾM SINH VIÊN THEO ID ---");
-        Student student = studentService.getStudentById(1);
-        System.out.println("Tìm thấy sinh viên ID 1: " + student);
+        Student student = studentService.getStudentById(2);
+        System.out.println("Tìm thấy sinh viên ID 2: " + student);
 
         context.close();
     }

@@ -13,8 +13,12 @@ import java.util.List;
 @Repository // Đánh dấu đây là một Spring Bean ở tầng Repository/DAO
 public class StudentDaoImpl implements StudentDao {
 
-    @Autowired // Spring sẽ tự động inject (tiêm) SessionFactory đã được cấu hình
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public StudentDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void save(Student student) {
