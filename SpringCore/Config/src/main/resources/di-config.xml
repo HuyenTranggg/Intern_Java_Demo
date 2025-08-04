@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Dependency Injection -->
+	<!-- C1: Constructor-based DI -->
+	<bean id="author" class="demo.Author">
+		<constructor-arg value="Blice" />
+	</bean>
+	
+	<!-- C2: Setter-based DI -->
+	<!-- Giải thích:
+		 * Spring dùng constructor không tham số để khởi tạo đối tượng Book
+		 * Spring tìm method có tên setAuthor(Author a) trong class Book 
+		 * Sau đó nó lấy bean có id="author" và inject vào đối tượng Book vừa tạo thông qua setter
+	-->
+	<bean id="book" class="demo.Book">
+		<property name="author" ref="author"></property>
+	</bean>
+	
+	
+	<!-- Các kĩ thuật được sử dụng bên trong DI
+		 Lưu ý: Chúng KHÔNG phải 1 loại DI
+	-->
+	<!-- Inner Bean -->
+	<bean id="fav-book" class="demo.Book">
+		<constructor-arg value="Fated Mixed Doubles"></constructor-arg>
+		<constructor-arg value="115411"></constructor-arg>
+		<constructor-arg>
+			<bean class="demo.Author">
+				<constructor-arg value="Ran" />
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="student" class="demo.Student">
+		<property name="name" value="Lan"></property>
+		<property name="address">
+			<bean class="demo.Address">
+				<property name="city" value="Ha Noi"></property>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- Collection -->
+	<!-- List -->
+	<bean id="class" class="demo.Class">
+		<property name="students">
+			<list>
+				<ref bean="student"/>
+				<bean class="demo.Student">
+					<property name="name" value="Hà"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- Set -->
+	<bean id="book-with-coauthors" class="demo.Book">
+		<property name="coAuthors">
+			<set>
+				<bean class="demo.Author">
+					<constructor-arg value="CoAuthor A" />
+				</bean>
+				<bean class="demo.Author">
+					<constructor-arg value="CoAuthor B" />
+				</bean>
+			</set>
+		</property>
+	</bean>
+	<!-- Map -->
+	<bean id="book2" class="demo.Book">
+		<constructor-arg value="Đại số" />
+		<constructor-arg value="5114" />
+		<constructor-arg ref="author" />
+	</bean>
+
+	<bean id="book3" class="demo.Book">
+		<constructor-arg value="Xác suất thống kê" />
+		<constructor-arg value="2028" />
+		<constructor-arg ref="author" />
+	</bean>
+	
+	<bean id="class-with-fav-books" class="demo.Class">
+		<property name="favoriteBooks">
+			<map>
+				<entry key="Lan" value-ref="book2" />
+				<entry key="Hà" value-ref="book3" />
+			</map>
+		</property>
+	</bean>
+	<!-- Properties -->
+	<bean id="author-with-info" class="demo.Author">
+		<constructor-arg value="Tác giả ẩn danh" />
+		<property name="info">
+			<props>
+				<prop key="email">hidden@book.com</prop>
+				<prop key="country">Vietnam</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
