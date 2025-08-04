@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- Namespace th
+     Khai báo namespace của Thymeleaf
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security" dùng cho Spring Security.
+-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- th:replace: Thay thế hoàn toàn thẻ <head> này bằng fragment 'page_head' -->
+    <head th:replace="~{fragments/layout :: page_head}"></head>
+    <title th:text="${pageTitle}">Default Title</title>
+</head>
+
+<body>
+    <!-- th:replace: Thay thế thẻ <header> này bằng fragment 'main_header' -->
+    <header th:replace="~{fragments/layout :: main_header}"></header>
+
+    <main>
+        <h1>Demo các tính năng Thymeleaf</h1>
+        <nav>
+            <!-- @{...}: Tạo URL động, Thymeleaf sẽ tự động thêm context path (nếu có). -->
+            <a th:href="@{/syntax}">1. Cú pháp cơ bản</a>
+            <a th:href="@{/logic}">2. Logic (if/each/switch)</a>
+            <a href="#">3. Form & Validation</a>
+        </nav>
+
+        <div>
+            <h2>Tích hợp sâu với Spring</h2>
+
+            <!-- Gọi Spring Beans/Services từ Template -->
+            <!-- Cú pháp: ${@beanName.methodName()} -->
+            <h3>Gọi Bean từ Service:</h3>
+            <p th:text="${@demoService.getDynamicDataFromService()}">Dữ liệu từ service sẽ hiện ở đây.</p>
+
+            <!-- Đa ngôn ngữ (i18n) -->
+            <!-- Cú pháp: #{key.name}, dùng để lấy message từ file .properties -->
+            <h3>Đa ngôn ngữ:</h3>
+            <p>
+                <b th:text="#{welcome.message}">Welcome Message</b>
+                <br />
+                <!-- Tạo link để chuyển đổi ngôn ngữ -->
+                <a th:href="@{/(lang=vi)}">Tiếng Việt</a> | <a th:href="@{/(lang=en)}">English</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- th:replace: Thay thế thẻ <footer> bằng fragment 'page_footer' và truyền tham số -->
+    <footer th:replace="~{fragments/layout :: page_footer(currentYear=2025)}"></footer>
+</body>
+
+</html>

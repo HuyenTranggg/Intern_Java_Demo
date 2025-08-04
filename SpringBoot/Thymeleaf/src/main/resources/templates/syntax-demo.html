@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <head th:replace="~{fragments/layout :: page_head}"></head>
+    <title>Demo Cú pháp Cơ bản</title>
+</head>
+
+<body>
+    <header th:replace="~{fragments/layout :: main_header}"></header>
+    <main>
+        <h1>Demo Cú pháp Cơ bản</h1>
+        <a th:href="@{/}">Về trang chủ</a>
+
+        <!-- Dùng biểu thức ${...} để lấy giá trị từ Model. -->
+        <h2 th:text="${welcomeMessage}">Welcome!</h2>
+
+        <h3>I. Hiển thị thuộc tính của đối tượng:</h3>
+        <!-- Truy cập thuộc tính của đối tượng 'user' trong Model -->
+        <p>Tên: <span th:text="${user.username}">User Name</span></p>
+        <p>Email: <span th:text="${user.email}">user@email.com</span></p>
+        <!-- Có thể gọi phương thức trực tiếp -->
+        <p>Tên (In hoa): <span th:text="${user.username.toUpperCase()}">USER NAME</span></p>
+
+        
+        <h3>II. Các thuộc tính th:*</h3>
+
+        <!-- th:text: Hiển thị text, an toàn (escaped HTML) -->
+        <!-- Các ký tự <, > sẽ được chuyển thành <, > để chống tấn công XSS. -->
+        <h4>1. th:text (An toàn)</h4>
+        <p>Đoạn text gốc: <code>"Đây là thẻ <b>in đậm</b> an toàn."</code></p>
+        <p>Kết quả với th:text: <span th:text="${safeText}"></span></p>
+
+        <!-- th:utext: Hiển thị text, không an toàn (unescaped HTML) -->
+        <!-- CẢNH BÁO: Chỉ dùng khi nguồn dữ liệu có thể tin tưởng 100%. -->
+        <h4>2. th:utext (Không an toàn)</h4>
+        <p>Đoạn text gốc: <code>"Đây là thẻ <b>in đậm</b> không an toàn."</code></p>
+        <p>Kết quả với th:utext: <span th:utext="${unsafeText}"></span></p>
+
+        <!-- th:attr: Đặt giá trị cho bất kỳ thuộc tính HTML nào -->
+        <h4>3. th:attr</h4>
+        <p>
+            <!-- Có thể set nhiều thuộc tính cùng lúc -->
+            <a th:attr="href=@{${profileUrl}}, 'data-user-id'=${userId}">Link Profile (tạo bằng th:attr)</a>
+        </p>
+        <p>
+            <!-- Dùng các shortcut tiện lợi hơn -->
+            <!-- th:href, th:src, th:id là các shortcut cho th:attr -->
+            <a th:href="@{${profileUrl}}">Link Profile (tạo bằng th:href)</a><br>
+            <img th:src="@{${avatarUrl}}" alt="Avatar" width="100"> <br/>(ảnh tạo bằng th:src)
+        </p>
+
+        <!-- th:classappend: Thêm class vào danh sách class đã có -->
+        <h4>4. th:classappend</h4>
+        <!-- Nếu isUrgent là true, class 'urgent-message' sẽ được thêm vào thẻ div -->
+        <div class="notification" th:classappend="${isUrgent} ? 'urgent-message' : 'normal-message'">
+            Đây là một thông báo.
+        </div>
+
+        <!-- th:class: Thay thế hoàn toàn thuộc tính class -->
+        <h4>5. th:class</h4>
+        <div class="initial-class" th:class="${isImportant} ? 'important' : 'not-important'">
+            Thuộc tính class trong thẻ div này bị thay thế hoàn toàn bởi th:class
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: page_footer(currentYear=2025)}"></footer>
+</body>
+
+</html>

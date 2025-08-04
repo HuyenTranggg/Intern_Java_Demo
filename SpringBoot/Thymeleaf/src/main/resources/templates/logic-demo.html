@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <head th:replace="~{fragments/layout :: page_head}"></head>
+    <title>Demo Logic</title>
+</head>
+
+<body>
+    <header th:replace="~{fragments/layout :: main_header}"></header>
+    <main>
+        <h1>Logic demo: Condition & Loop</h1>
+        <a th:href="@{/}">Về trang chủ</a>
+
+        <!-- Conditional Rendering: th:if and th:unless -->
+        <h3>1. th:if / th:unless</h3>
+        <!-- th:if: Chỉ render thẻ <p> nếu biến isLoggedIn là true. -->
+        <p th:if="${isLoggedIn}">Chào mừng quay trở lại!</p>
+        <!-- th:unless: Ngược với th:if. Chỉ render thẻ <span> nếu userIsActive là false. -->
+        <p><span th:unless="${userIsActive}" style="color:red;">Tài khoản đã bị khóa.</span></p>
+        <!-- Kết hợp nhiều điều kiện -->
+        <div th:if="${isLoggedIn and userRole == 'ADMIN'}">
+            <a href="#">Trang Quản trị</a>
+        </div>
+
+        <!-- th:switch, th:case: Giống switch-case trong Java -->
+        <h3>2. th:switch / th:case</h3>
+        <div th:switch="${accessLevel}">
+            <p th:case="'full'">Bạn có toàn quyền truy cập.</p>
+            <p th:case="'partial'">Bạn có quyền truy cập một phần.</p>
+            <!-- th:case="*": Tương đương với default case. -->
+            <p th:case="*">Bạn không có quyền truy cập.</p>
+        </div>
+
+        <!-- Loop and Display List: th:each -->
+        <h3>3. th:each</h3>
+        <ul>
+            <!-- th:each: Lặp qua collection 'tasks' trong Model. -->
+            <!-- Mỗi phần tử trong 'tasks' sẽ được gán cho biến 'task' -->
+            <li th:each="task : ${tasks}" th:text="${task}">Một công việc</li>
+        </ul>
+
+        <!-- Using Loop State Variables (iterStat) -->
+        <h3>4. th:each với biến trạng thái iterStat</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>STT (count)</th>
+                    <th>Index</th>
+                    <th>Nhiệm vụ (current)</th>
+                    <th>Chẵn/Lẻ (even/odd)</th>
+                    <th>Đầu/Cuối (first/last)</th>
+                    <th>Tổng (size)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 'status' là biến trạng thái (thường đặt tên là iterStat). -->
+                <tr th:each="task, status : ${tasks}" th:class="${status.odd} ? 'odd-row' : 'even-row'">
+                    <!-- status.count: số thứ tự, bắt đầu từ 1. -->
+                    <td th:text="${status.count}"></td>
+                    <!-- status.index: chỉ số của phần tử, bắt đầu từ 0. -->
+                    <td th:text="${status.index}"></td>
+                    <!-- status.current: phần tử hiện tại (giống biến 'task'). -->
+                    <td th:text="${status.current}"></td>
+                    <td th:text="${status.odd} ? 'Lẻ' : 'Chẵn'"></td>
+                    <td th:text="${status.first} ? 'Đầu' : (${status.last} ? 'Cuối' : '-')"></td>
+                    <!-- status.size: tổng số phần tử trong collection. -->
+                    <td th:text="${status.size}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer th:replace="~{fragments/layout :: page_footer(currentYear=2025)}"></footer>
+</body>
+
+</html>

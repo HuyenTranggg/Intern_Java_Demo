@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- File này chỉ dùng để định nghĩa các Fragment, không phải để hiển thị trực tiếp. -->
+
+<body>
+
+    <!-- th:fragment -->
+    <!-- Fragment 1: Phần <head> chung cho các trang -->
+
+    <head th:fragment="page_head">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Tạo link tới file CSS trong thư mục static -->
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+
+    <!-- Fragment 2: Header chung -->
+    <header th:fragment="main_header">
+        <h1>
+            <!-- Lấy message từ file properties cho tiêu đề trang -->
+            <a th:href="@{/}" style="text-decoration: none; color: black;" th:text="#{page.title}">DEMO THYMELEAF</a>
+        </h1>
+        <hr />
+    </header>
+
+    <!-- Fragment 3: Footer chung -->
+    <!-- Fragment này có thể nhận một tham số là 'currentYear' -->
+    <footer th:fragment="page_footer(currentYear)">
+        <hr />
+        <!-- Hiển thị tham số truyền vào -->
+        <p><span th:text="${currentYear}">2025</span> Demo Thymeleaf</p>
+
+        <!-- Demo th:insert và th:include -->
+        <!-- th:insert: Chèn fragment vào BÊN TRONG thẻ div. Lấy cả tag định nghĩa fragment. -->
+        <div th:insert="~{::internal_info}">
+            <!-- Fragment 'internal_info' sẽ được chèn vào đây -->
+        </div>
+
+        <br />
+        <!-- th:include: Chỉ chèn NỘI DUNG của fragment vào thẻ div. Bỏ qua tag định nghĩa fragment. -->
+        <div th:include="~{::internal_info}">
+            <!-- Nội dung của 'internal_info' sẽ được chèn vào đây -->
+        </div>
+
+    </footer>
+
+    <!-- Fragment để demo insert/include -->
+    <div th:fragment="internal_info">
+        <em>Đây là nội dung trong fragment.</em>
+    </div>
+
+</body>
+
+</html>
