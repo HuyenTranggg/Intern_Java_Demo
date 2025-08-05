@@ -68,3 +68,5 @@ out/
 *.swp
 *.swo
 *.bak
+
+application.properties
