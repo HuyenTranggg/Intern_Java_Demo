@@ -1,9 +1,16 @@
 package com.example.thymeleaf.controller;
 
 import com.example.thymeleaf.dto.UserFormDTO;
+
+import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +64,45 @@ public class DemoController {
         List<String> tasks = Arrays.asList("Học Thymeleaf", "Làm bài tập", "Uống cà phê", "Đi ngủ");
         model.addAttribute("tasks", tasks);
         return "logic-demo";
+    }
+
+    // === DEMO FORM VÀ VALIDATION ===
+    // Hiển thị form lần đầu
+    @GetMapping("/form")
+    public String showForm(Model model) {
+        // Tạo một đối tượng UserFormDTO rỗng để binding với form
+        // th:object sẽ dùng đối tượng này
+        model.addAttribute("userFormData", new UserFormDTO());
+        return "form-demo";
+    }
+
+    // Xử lý dữ liệu từ form 
+    @PostMapping("/form-submit")
+    public String processForm(@Valid @ModelAttribute("userFormData") UserFormDTO userForm,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+        // @Valid: Kích hoạt validation trên đối tượng userForm
+        // @ModelAttribute: Lấy dữ liệu từ form và gán vào userForm
+        // BindingResult: Chứa kết quả của quá trình validation, PHẢI đứng ngay sau đối tượng @Valid
+
+        // Kiểm tra nếu có lỗi validation
+        if (bindingResult.hasErrors()) {
+            // Nếu có lỗi, quay trở lại trang form để hiển thị lỗi
+            // Thymeleaf sẽ tự động giữ lại các giá trị người dùng đã nhập nhờ th:field
+            // và hiển thị lỗi nhờ th:errors và #fields
+            return "form-demo";
+        }
+
+        // Nếu không có lỗi, xử lý dữ liệu 
+        redirectAttributes.addFlashAttribute("submittedUser", userForm);
+        
+        // Chuyển hướng về một view khác để hiển thị kết quả và tránh việc submit lại form khi người dùng refresh trang         
+        return "redirect:/success"; 
+    }
+
+    @GetMapping("/success")
+    public String showSuccessPage() {
+        return "submitted-form";
     }
 
     // === DEMO FRAGMENTS ===

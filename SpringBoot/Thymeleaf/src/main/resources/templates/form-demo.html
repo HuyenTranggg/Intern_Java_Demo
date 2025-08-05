@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <head th:replace="~{fragments/layout :: page_head}"></head>
+    <title>Demo Form & Validation</title>
+</head>
+
+<body>
+    <header th:replace="~{fragments/layout :: main_header}"></header>
+    <main>
+        <h1>Building Dynamic Forms & Validation Integration</h1>
+        <a th:href="@{/}">Về trang chủ</a>
+
+        <!-- th:object: Binding form này với đối tượng 'userFormData' từ Model. -->
+        <!-- Mọi th:field với cú pháp *{...} bên trong sẽ tham chiếu đến thuộc tính của đối tượng này. -->
+        <form th:action="@{/form-submit}" th:object="${userFormData}" method="post">
+            <!-- Hiển thị lỗi chung cho cả form -->
+            <!-- #fields.hasErrors(): Kiểm tra xem có bất kỳ lỗi nào trong form không. -->
+            <div th:if="${#fields.hasErrors()}" class="error-summary">
+                <strong>Đã xảy ra lỗi!</strong>
+                <p>Vui lòng kiểm tra lại thông tin bạn đã nhập.</p>
+            </div>
+
+            <!-- Hiển thị lỗi cụ thể cho từng field -->
+            <!-- #fields.hasErrors('username'): Kiểm tra field 'username' có lỗi không. -->
+            <div th:classappend="${#fields.hasErrors('username')} ? 'form-group-error'">
+                <label for="username">Tên người dùng:</label>
+
+                <!-- th:field="*{username}"
+                Thymeleaf sẽ tự động tạo:
+                    - id="username"
+                    - name="username"
+                    - value="..." (lấy từ userFormData.username)
+                    Giúp giữ lại dữ liệu người dùng đã nhập nếu validation thất bại.
+                -->
+                <!-- th:errorclass: Tự động thêm class 'input-error-highlight' vào thẻ input này NẾU field 'username' có lỗi. -->
+                <input type="text" th:field="*{username}" th:errorclass="input-error-highlight" />
+                
+                <div th:if="${#fields.hasErrors('username')}" class="error-detail">
+                    <!-- th:errors="*{username}": Hiển thị message lỗi của field 'username' (message này được định nghĩa trong DTO). -->
+                    <span th:errors="*{username}">Lỗi tên người dùng</span>
+                </div>
+            </div>
+            <hr />
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" th:field="*{email}" th:errorclass="input-error-highlight" />
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-detail"></div>
+            </div>
+            <hr />
+
+            <!-- Demo với các loại input khác nhau -->
+            <div>
+                <!-- Checkbox -->
+                <input type="checkbox" th:field="*{termsAccepted}" />
+                <label th:for="${#ids.prev('termsAccepted')}">Tôi đồng ý với điều khoản</label>
+            </div>
+            <hr />
+            <div>
+                <!-- Radio Buttons -->
+                <label>Giới tính:</label><br />
+                <input type="radio" th:field="*{gender}" value="male" />
+                <label for="gender1">Nam</label>
+                <input type="radio" th:field="*{gender}" value="female" />
+                <label for="gender2">Nữ</label>
+            </div>
+            <hr />
+            <div>
+                <!-- Select/Option -->
+                <label for="country">Quốc gia:</label>
+                <select th:field="*{country}">
+                    <option value="">-- Chọn quốc gia --</option>
+                    <option value="VN">Việt Nam</option>
+                    <option value="US">Hoa Kỳ</option>
+                    <option value="JP">Nhật Bản</option>
+                </select>
+            </div>
+            <hr />
+            <div>
+                <!-- Textarea -->
+                <label for="description">Mô tả:</label><br />
+                <textarea th:field="*{description}" rows="4" cols="50"></textarea>
+            </div>
+            <hr />
+            <button type="submit">Gửi</button>
+        </form>
+    </main>
+    <footer th:replace="~{fragments/layout :: page_footer(currentYear=2025)}"></footer>
+</body>
+
+</html>

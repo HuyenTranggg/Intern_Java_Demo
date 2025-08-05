@@ -3,7 +3,6 @@ body {
     padding: 2em;
 }
 
-/* Style cho các khối code */
 pre {
     background-color: #f4f4f4;
     border: 1px solid #ddd;
@@ -21,7 +20,7 @@ pre {
     word-wrap: break-word;
 }
 
-/* Style cho các lỗi validation */
+/* Style cho lỗi validation */
 .error-summary {
     color: #D8000C;
     background-color: #FFBABA;
@@ -76,4 +75,14 @@ nav a {
 /* Style cho bảng */
 th, td {
     padding: 10px;
+}
+
+.logout-btn {
+    padding: 15px;
+    margin: 0 10px;
+    background-color: red;
+    color: #fff;
+    cursor: pointer;
+    font-size: medium;
+    text-decoration: none;
 }

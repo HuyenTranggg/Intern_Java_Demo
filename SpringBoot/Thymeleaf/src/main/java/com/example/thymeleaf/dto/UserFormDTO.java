@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// DTO dùng để chứa dữ liệu được gửi lên từ form HTML.
 @Data
 @NoArgsConstructor
 public class UserFormDTO {

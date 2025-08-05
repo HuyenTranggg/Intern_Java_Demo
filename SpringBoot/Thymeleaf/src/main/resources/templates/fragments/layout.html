@@ -16,10 +16,11 @@
 
     <!-- Fragment 2: Header chung -->
     <header th:fragment="main_header">
-        <h1>
+        <h1 style="display: inline-block;">
             <!-- Lấy message từ file properties cho tiêu đề trang -->
             <a th:href="@{/}" style="text-decoration: none; color: black;" th:text="#{page.title}">DEMO THYMELEAF</a>
         </h1>
+        <a th:href="@{/logout}" class="logout-btn">Logout</a>
         <hr />
     </header>
 

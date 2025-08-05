@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <head th:replace="~{fragments/layout :: page_head}"></head>
+    <title>Submitted Form</title>
+</head>
+
+<body>
+    <header th:replace="~{fragments/layout :: main_header}"></header>
+    <main>
+        <h1>Form đã được submit thành công</h1>
+        <a th:href="@{/}">Về trang chủ</a>
+
+        <div th:object="${submittedUser}">
+            <h3>Thông tin đã nhập:</h3>
+            <p><strong>Tên người dùng:</strong> <span th:text="*{username}"></span></p>
+            <p><strong>Email:</strong> <span th:text="*{email}"></span></p>
+            <p><strong>Đồng ý điều khoản:</strong> <span th:text="*{termsAccepted} ? 'Có' : 'Không'"></span></p>
+            <p><strong>Giới tính:</strong> <span th:text="*{gender}"></span></p>
+            <p><strong>Quốc gia:</strong> <span th:text="*{country}"></span></p>
+            <p><strong>Mô tả:</strong> <pre th:text="*{description}"></pre></p>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: page_footer(currentYear=2025)}"></footer>
+</body>
+
+</html>
