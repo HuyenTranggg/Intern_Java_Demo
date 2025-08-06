@@ -1,0 +1,88 @@
+body {
+    font-family: sans-serif;
+    padding: 2em;
+}
+
+pre {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+}
+
+/* Style cho lỗi validation */
+.error-summary {
+    color: #D8000C;
+    background-color: #FFBABA;
+    border: 1px solid;
+    margin: 10px 0;
+    padding: 15px;
+}
+
+.error-detail {
+    color: #D8000C;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Style cho input khi có lỗi */
+.input-error-highlight {
+    border: 2px solid #D8000C !important;
+}
+
+.form-group-error {
+    background-color: #FFEDED;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Class được thêm bởi th:classappend */
+.urgent-message {
+    color: white;
+    background-color: crimson;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.normal-message {
+    color: black;
+    background-color: lightgray;
+    padding: 5px;
+}
+
+nav {
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid #ccc;
+}
+
+nav a {
+    margin-right: 15px;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+/* Style cho bảng */
+th, td {
+    padding: 10px;
+}
+
+.logout-btn {
+    padding: 15px;
+    background-color: red;
+    color: #fff;
+    cursor: pointer;
+    font-size: medium;
+    text-decoration: none;
+    border: none;
+}
