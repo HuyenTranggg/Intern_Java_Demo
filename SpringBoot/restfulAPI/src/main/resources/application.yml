@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/book_db?createDatabaseIfNotExist=true&useSSL=false
+    username: root # <-- THAY BẰNG USERNAME CỦA BẠN
+    password: Password # <-- THAY BẰNG PASSWORD CỦA BẠN
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+logging:
+  level:
+    com.example.bookmanagement: INFO
+    org.springframework: WARN
+    org.hibernate.SQL: INFO
